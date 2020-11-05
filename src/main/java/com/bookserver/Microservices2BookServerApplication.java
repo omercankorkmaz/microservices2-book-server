@@ -1,8 +1,17 @@
 package com.bookserver;
 
+import java.math.BigDecimal;
+
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
 
+import com.bookserver.model.Book;
+import com.bookserver.repository.BookRepository;
+
+@EnableDiscoveryClient
 @SpringBootApplication
 public class Microservices2BookServerApplication {
 
@@ -10,4 +19,13 @@ public class Microservices2BookServerApplication {
 		SpringApplication.run(Microservices2BookServerApplication.class, args);
 	}
 
+	@Bean
+	CommandLineRunner initDatabase(BookRepository repository) {
+	    return args -> {
+	        repository.save(new Book("A Guide to the Bodhisattva Way of Life", "Santideva", new BigDecimal("15.41")));
+	        repository.save(new Book("The Life-Changing Magic of Tidying Up", "Marie Kondo", new BigDecimal("9.69")));
+	        repository.save(new Book("Refactoring: Improving the Design of Existing Code", "Martin Fowler", new BigDecimal("47.99")));
+	    };
+	}
+	
 }
