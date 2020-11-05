@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
@@ -13,7 +15,7 @@ import com.bookserver.repository.BookRepository;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class Microservices2BookServerApplication {
+public class Microservices2BookServerApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Microservices2BookServerApplication.class, args);
@@ -27,5 +29,10 @@ public class Microservices2BookServerApplication {
 	        repository.save(new Book("Refactoring: Improving the Design of Existing Code", "Martin Fowler", new BigDecimal("47.99")));
 	    };
 	}
+	
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(Microservices2BookServerApplication.class);
+    }
 	
 }
